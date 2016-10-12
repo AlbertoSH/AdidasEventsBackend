@@ -2,5 +2,11 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+GET           /docs/swagger.html                             @com.github.albertosh.adidas.backend.Swagplash.serveSwagger
+GET           /docs/css/:fileName                            @com.github.albertosh.adidas.backend.Swagplash.serveCss(fileName : String)
+GET           /docs/lib/:fileName                            @com.github.albertosh.adidas.backend.Swagplash.serveLib(fileName : String)
+GET           /docs/swagger-ui.min.js                        @com.github.albertosh.adidas.backend.Swagplash.serveSwaggerJs
+GET           /docs/swagger.json                             @com.github.albertosh.adidas.backend.Swagplash.getDoc(pretty: Boolean ?= false)
 
+GET     /event     @com.github.albertosh.adidas.backend.controllers.EventsController.getAll(page: Integer ?= null, pageSize: Integer ?= null)
     

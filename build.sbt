@@ -12,6 +12,8 @@ unmanagedResourceDirectories in Test <+=  baseDirectory ( _ /"target/web/public/
 
 resolvers += "scalaz-bintray" at "https://dl.bintray.com/scalaz/releases"
 
+resolvers += Resolver.jcenterRepo
+
 libraryDependencies ++= Seq(
   "com.tngtech.jgiven" % "jgiven-html5-report" % "0.11.3" % "test",
   "com.tngtech.jgiven" % "jgiven-junit" % "0.11.3" % "test",
@@ -20,6 +22,7 @@ libraryDependencies ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "org.mongodb" % "mongo-java-driver" % "3.2.2",
-  "com.github.albertosh" % "swagplash" % "1.5.0"
+  "io.reactivex" % "rxjava" % "1.2.1",
+  "org.mongodb" % "mongodb-driver-rx" % "1.2.0",
+  "com.github.albertosh" % "swagplash" % "1.5.1"
 )
