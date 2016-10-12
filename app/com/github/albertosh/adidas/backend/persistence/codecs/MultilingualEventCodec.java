@@ -1,7 +1,8 @@
 package com.github.albertosh.adidas.backend.persistence.codecs;
 
-import com.github.albertosh.adidas.backend.models.EventTexts;
-import com.github.albertosh.adidas.backend.models.MultilingualEvent;
+import com.github.albertosh.adidas.backend.models.event.EventTexts;
+import com.github.albertosh.adidas.backend.models.event.MultilingualEvent;
+import com.github.albertosh.adidas.backend.persistence.core.ObjectWithId;
 
 import org.bson.BsonReader;
 import org.bson.BsonType;
@@ -15,7 +16,9 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Singleton
-public class MultilingualEventCodec implements Codec<MultilingualEvent> {
+public class MultilingualEventCodec
+        extends ObjectWithIdCodec<MultilingualEvent>
+        implements Codec<MultilingualEvent> {
 
     private final LocalDateCodec localDateCodec;
     private final EventTextsCodec eventTextsCodec;
@@ -27,49 +30,35 @@ public class MultilingualEventCodec implements Codec<MultilingualEvent> {
     }
 
     @Override
-    public MultilingualEvent decode(BsonReader reader, DecoderContext decoderContext) {
-        MultilingualEvent.Builder builder = new MultilingualEvent.Builder();
-        reader.readStartDocument();
-        builder.id(reader.readObjectId("_id").toString());
-
-        decodeCurrentObjectTypeFields(reader, decoderContext, builder);
-
-        reader.readEndDocument();
-        return builder.build();
+    @SuppressWarnings("unchecked")
+    protected <B extends ObjectWithId.Builder<MultilingualEvent>> B getBuilder() {
+        return (B) new MultilingualEvent.Builder();
     }
 
-    private void decodeCurrentObjectTypeFields(BsonReader bsonReader, DecoderContext decoderContext,
-                                               MultilingualEvent.Builder builder) {
-        while (bsonReader.readBsonType() != BsonType.END_OF_DOCUMENT) {
-            String field = bsonReader.readName();
-            decodeCurrentValue(bsonReader, decoderContext, builder, field);
-        }
-    }
-
-    @SuppressWarnings("deprecation")
-    private void decodeCurrentValue(BsonReader reader, DecoderContext decoderContext,
-                                    MultilingualEvent.Builder builder, String field) {
+    @Override
+    protected <B extends ObjectWithId.Builder<MultilingualEvent>> void decodeCurrentValue(BsonReader reader, DecoderContext decoderContext, B builder, String field) {
+        MultilingualEvent.Builder eventBuilder = (MultilingualEvent.Builder) builder;
         switch (field) {
             case "date":
-                builder.date(localDateCodec.decode(reader, decoderContext));
+                eventBuilder.date(localDateCodec.decode(reader, decoderContext));
                 break;
             case "imageUrl":
-                builder.imageUrl(reader.readString());
+                eventBuilder.imageUrl(reader.readString());
                 break;
             case "imageId":
-                builder.imageId(reader.readObjectId().toString());
+                eventBuilder.imageId(reader.readObjectId().toString());
                 break;
             case "texts":
                 reader.readStartDocument();
                 while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
                     String language = reader.readName();
                     EventTexts texts = eventTextsCodec.decode(reader, decoderContext);
-                    builder.withText(language, texts);
+                    eventBuilder.withText(language, texts);
                 }
                 reader.readEndDocument();
                 break;
             case "defaultLanguage":
-                builder.defaultLanguage(reader.readString());
+                eventBuilder.defaultLanguage(reader.readString());
                 break;
             default:
                 // This shouldn't happen...
@@ -78,18 +67,9 @@ public class MultilingualEventCodec implements Codec<MultilingualEvent> {
     }
 
     @Override
-    public void encode(BsonWriter writer, MultilingualEvent value, EncoderContext encoderContext) {
-        writer.writeStartDocument();
-        writer.writeObjectId("_id", new ObjectId(value.getId()));
-
-        encodeCurrentObjectTypeFields(writer, value, encoderContext);
-
-        writer.writeEndDocument();
-    }
-
-    private void encodeCurrentObjectTypeFields(BsonWriter writer, MultilingualEvent value, EncoderContext encoderContext) {
+    protected void encodeCurrentObjectTypeFields(BsonWriter writer, MultilingualEvent value, EncoderContext context) {
         writer.writeName("date");
-        localDateCodec.encode(writer, value.getDate(), encoderContext);
+        localDateCodec.encode(writer, value.getDate(), context);
         value.getImageUrl()
                 .ifPresent(url -> writer.writeString("imageUrl", url));
         value.getImageId()
@@ -99,7 +79,7 @@ public class MultilingualEventCodec implements Codec<MultilingualEvent> {
         writer.writeStartDocument();
         value.getTexts().entrySet().forEach(entry -> {
             writer.writeName(entry.getKey());
-            eventTextsCodec.encode(writer, entry.getValue(), encoderContext);
+            eventTextsCodec.encode(writer, entry.getValue(), context);
         });
         writer.writeEndDocument();
         writer.writeString("defaultLanguage", value.getDefaultLanguage());

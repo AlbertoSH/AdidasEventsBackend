@@ -1,6 +1,6 @@
 package com.github.albertosh.adidas.backend.persistence.codecs;
 
-import com.github.albertosh.adidas.backend.models.EventTexts;
+import com.github.albertosh.adidas.backend.models.event.EventTexts;
 
 import org.bson.BsonReader;
 import org.bson.BsonType;

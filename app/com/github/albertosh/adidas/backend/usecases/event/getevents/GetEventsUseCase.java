@@ -1,6 +1,6 @@
 package com.github.albertosh.adidas.backend.usecases.event.getevents;
 
-import com.github.albertosh.adidas.backend.models.Event;
+import com.github.albertosh.adidas.backend.models.event.Event;
 import com.github.albertosh.adidas.backend.persistence.event.IMultilingualEventPersistenceRead;
 
 import java.util.List;

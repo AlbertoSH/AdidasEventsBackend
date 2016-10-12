@@ -1,4 +1,4 @@
-package com.github.albertosh.adidas.backend.models;
+package com.github.albertosh.adidas.backend.models.event;
 
 import com.google.common.base.Preconditions;
 

@@ -14,4 +14,6 @@ GET     /event/:id      @com.github.albertosh.adidas.backend.controllers.EventsC
 POST    /event          @com.github.albertosh.adidas.backend.controllers.EventsController.create()
 
 GET     /image/:id      @com.github.albertosh.adidas.backend.controllers.ImagesController.get(id: String)
+
+POST     /user          @com.github.albertosh.adidas.backend.controllers.UserController.register()
     

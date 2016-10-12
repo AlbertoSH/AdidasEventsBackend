@@ -1,6 +1,6 @@
 package com.github.albertosh.adidas.backend.controllers;
 
-import com.github.albertosh.adidas.backend.models.Event;
+import com.github.albertosh.adidas.backend.models.event.Event;
 import com.github.albertosh.adidas.backend.usecases.event.createEvents.CreateEventUseCaseInput;
 import com.github.albertosh.adidas.backend.usecases.event.createEvents.ICreateEventsUseCase;
 import com.github.albertosh.adidas.backend.usecases.event.getevents.GetEventsUseCaseInput;
@@ -15,7 +15,6 @@ import com.github.albertosh.swagplash.annotations.ApiQueryParam;
 import com.github.albertosh.swagplash.annotations.ApiResponse;
 import com.github.albertosh.swagplash.annotations.SecureEndPoint;
 
-import java.io.File;
 import java.time.LocalDate;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;

@@ -1,6 +1,6 @@
 package com.github.albertosh.adidas.backend.persistence.event;
 
-import com.github.albertosh.adidas.backend.models.MultilingualEvent;
+import com.github.albertosh.adidas.backend.models.event.MultilingualEvent;
 import com.github.albertosh.adidas.backend.persistence.core.PersistenceRead;
 import com.mongodb.rx.client.MongoClient;
 

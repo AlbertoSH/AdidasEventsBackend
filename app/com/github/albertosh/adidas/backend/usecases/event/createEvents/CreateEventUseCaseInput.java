@@ -16,7 +16,7 @@ public class CreateEventUseCaseInput {
     private final String imageUrl;
 
     private CreateEventUseCaseInput(Builder builder) {
-        this.defaultLanguage = Preconditions.checkNotNull(builder.defaultLanguage);
+        this.defaultLanguage = builder.defaultLanguage;
         this.title = Preconditions.checkNotNull(builder.title);
         this.description = builder.description;
         this.date = Preconditions.checkNotNull(builder.date);
@@ -24,8 +24,8 @@ public class CreateEventUseCaseInput {
         this.imageUrl = builder.imageUrl;
     }
 
-    public String getDefaultLanguage() {
-        return defaultLanguage;
+    public Optional<String> getDefaultLanguage() {
+        return Optional.ofNullable(defaultLanguage);
     }
 
     public String getTitle() {
