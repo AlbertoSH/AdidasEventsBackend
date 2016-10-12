@@ -13,7 +13,6 @@ import javax.inject.Singleton;
 
 import rx.Observable;
 import rx.Single;
-import rx.functions.Func2;
 
 @Singleton
 public class EnrollEventUseCase

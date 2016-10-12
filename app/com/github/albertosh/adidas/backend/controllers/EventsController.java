@@ -29,7 +29,8 @@ import play.mvc.Controller;
 import play.mvc.Result;
 
 import static com.github.albertosh.adidas.backend.utils.ObservableAndFutures.fromSingle;
-import static com.github.albertosh.swagplash.annotations.ApiOperation.HttpMethod.*;
+import static com.github.albertosh.swagplash.annotations.ApiOperation.HttpMethod.GET;
+import static com.github.albertosh.swagplash.annotations.ApiOperation.HttpMethod.POST;
 import static play.libs.Json.toJson;
 
 @Singleton

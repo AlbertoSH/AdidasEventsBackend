@@ -6,7 +6,6 @@ import com.github.albertosh.swagplash.annotations.ApiPathParam;
 import com.github.albertosh.swagplash.annotations.ApiResponse;
 
 import java.io.File;
-import java.util.concurrent.CompletionStage;
 
 import javax.inject.Inject;
 import javax.inject.Named;

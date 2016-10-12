@@ -2,7 +2,6 @@ package com.github.albertosh.adidas.backend.persistence.codecs;
 
 import com.github.albertosh.adidas.backend.persistence.core.ObjectWithId;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.bson.BsonReader;
 import org.bson.BsonType;
 import org.bson.BsonWriter;
@@ -11,7 +10,6 @@ import org.bson.codecs.DecoderContext;
 import org.bson.codecs.EncoderContext;
 import org.bson.types.ObjectId;
 
-import javax.annotation.OverridingMethodsMustInvokeSuper;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
@@ -44,7 +42,8 @@ public abstract class ObjectWithIdCodec<T extends ObjectWithId> implements Codec
         }
     }
 
-    protected <B extends ObjectWithId.Builder<T>> void decodeCurrentValue(BsonReader reader, DecoderContext decoderContext, B builder, String field) {}
+    protected <B extends ObjectWithId.Builder<T>> void decodeCurrentValue(BsonReader reader, DecoderContext decoderContext, B builder, String field) {
+    }
 
     @Override
     public final void encode(BsonWriter bsonWriter, T value, EncoderContext encoderContext) {
@@ -56,6 +55,7 @@ public abstract class ObjectWithIdCodec<T extends ObjectWithId> implements Codec
         bsonWriter.writeEndDocument();
     }
 
-    protected void encodeCurrentObjectTypeFields(BsonWriter writer, T value, EncoderContext context) {}
+    protected void encodeCurrentObjectTypeFields(BsonWriter writer, T value, EncoderContext context) {
+    }
 
 }

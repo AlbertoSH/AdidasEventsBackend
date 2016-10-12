@@ -10,9 +10,11 @@ import play.Configuration;
 public class ConfigModule extends AbstractModule {
 
     @Override
-    protected void configure() {}
+    protected void configure() {
+    }
 
-    @Provides @Named("defaultLanguage")
+    @Provides
+    @Named("defaultLanguage")
     String defaultLanguage(Configuration configuration) {
         return configuration.getString("application.langs");
     }

@@ -7,6 +7,7 @@ import com.github.albertosh.adidas.backend.persistence.authinfo.IAuthInfoPersist
 import com.github.albertosh.adidas.backend.persistence.user.IUserPersistenceCreate;
 import com.github.albertosh.adidas.backend.persistence.user.IUserPersistenceRead;
 import com.github.albertosh.adidas.backend.persistence.utils.filter.Filter;
+import com.github.albertosh.adidas.backend.usecases.utils.PasswordStorage;
 import com.github.albertosh.adidas.backend.usecases.utils.TokenGenerator;
 
 import javax.inject.Inject;
@@ -27,18 +28,20 @@ public class RegisterUseCase
     private final IAuthInfoPersistenceCreate authInfoPersistenceCreate;
     private final TokenGenerator tokenGenerator;
     private final String defaultLanguage;
+    private final PasswordStorage passwordStorage;
 
     @Inject
     public RegisterUseCase(IUserPersistenceRead userPersistenceRead,
                            IUserPersistenceCreate userPersistenceCreate,
                            IAuthInfoPersistenceCreate authInfoPersistenceCreate,
                            TokenGenerator tokenGenerator,
-                           @Named("defaultLanguage") String defaultLanguage) {
+                           @Named("defaultLanguage") String defaultLanguage, PasswordStorage passwordStorage) {
         this.userPersistenceRead = userPersistenceRead;
         this.userPersistenceCreate = userPersistenceCreate;
         this.authInfoPersistenceCreate = authInfoPersistenceCreate;
         this.tokenGenerator = tokenGenerator;
         this.defaultLanguage = defaultLanguage;
+        this.passwordStorage = passwordStorage;
     }
 
     @Override
@@ -47,17 +50,24 @@ public class RegisterUseCase
         return userPersistenceRead.read(new Filter(EMAIL, input.getEmail()))
                 .count()
                 .flatMap(count -> {
-                    if (count == 0) {
-                        User.Builder userBuilder = new User.Builder()
-                                .email(input.getEmail())
-                                .firstName(input.getFirstName())
-                                .lastName(input.getLastName())
-                                .dateOfBirth(input.getDateOfBirth())
-                                .country(input.getCountry())
-                                .preferredLanguage(input.getPreferredLanguage().orElse(defaultLanguage));
-                        return userPersistenceCreate.create(userBuilder).toObservable();
-                    } else {
-                        return Observable.error(RegisterUseCaseError.emailIsAlreadyRegistered);
+                    try {
+                        if (count == 0) {
+                            User.Builder userBuilder = null;
+                            userBuilder = new User.Builder()
+                                    .email(input.getEmail())
+                                    .encodedPassword(passwordStorage.createHash(input.getPassword()))
+                                    .firstName(input.getFirstName())
+                                    .lastName(input.getLastName())
+                                    .dateOfBirth(input.getDateOfBirth())
+                                    .country(input.getCountry())
+                                    .preferredLanguage(input.getPreferredLanguage().orElse(defaultLanguage));
+                            return userPersistenceCreate.create(userBuilder).toObservable();
+                        } else {
+                            return Observable.error(RegisterUseCaseError.emailIsAlreadyRegistered);
+                        }
+                    } catch (PasswordStorage.CannotPerformOperationException e) {
+                        //Shouldn't happen...
+                        throw new RuntimeException(e);
                     }
                 }).flatMap(user -> {
                     AuthInfo.Builder authInfoBuilder = new AuthInfo.Builder()

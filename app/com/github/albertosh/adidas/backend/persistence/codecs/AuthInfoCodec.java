@@ -1,7 +1,6 @@
 package com.github.albertosh.adidas.backend.persistence.codecs;
 
 import com.github.albertosh.adidas.backend.models.user.AuthInfo;
-import com.github.albertosh.adidas.backend.models.user.User;
 import com.github.albertosh.adidas.backend.persistence.core.ObjectWithId;
 
 import org.bson.BsonReader;

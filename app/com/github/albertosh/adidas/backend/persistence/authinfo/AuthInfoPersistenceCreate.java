@@ -1,9 +1,7 @@
 package com.github.albertosh.adidas.backend.persistence.authinfo;
 
 import com.github.albertosh.adidas.backend.models.user.AuthInfo;
-import com.github.albertosh.adidas.backend.models.user.User;
 import com.github.albertosh.adidas.backend.persistence.core.PersistenceCreate;
-import com.github.albertosh.adidas.backend.persistence.user.IUserPersistenceCreate;
 import com.mongodb.rx.client.MongoClient;
 
 import javax.inject.Inject;

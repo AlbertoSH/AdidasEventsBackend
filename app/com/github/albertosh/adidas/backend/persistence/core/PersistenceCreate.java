@@ -8,6 +8,7 @@ import org.bson.types.ObjectId;
 import javax.inject.Named;
 
 import rx.Single;
+import rx.schedulers.Schedulers;
 
 public abstract class PersistenceCreate<T extends ObjectWithId>
         extends Persistence<T>
@@ -30,7 +31,8 @@ public abstract class PersistenceCreate<T extends ObjectWithId>
 
         return collection.insertOne(item)
                 .map(suc -> item)
-                .toSingle();
+                .toSingle()
+                .observeOn(Schedulers.io());
     }
 
 }

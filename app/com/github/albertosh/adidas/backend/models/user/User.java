@@ -6,12 +6,12 @@ import com.github.albertosh.adidas.backend.persistence.core.ObjectWithId;
 
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 public class User extends ObjectWithId {
 
     private final String email;
+    private final String encodedPassword;
     private final String firstName;
     private final String lastName;
     private final LocalDate dateOfBirth;
@@ -22,6 +22,7 @@ public class User extends ObjectWithId {
     private User(Builder builder) {
         super(builder);
         this.email = Preconditions.checkNotNull(builder.email);
+        this.encodedPassword = Preconditions.checkNotNull(builder.encodedPassword);
         this.firstName = Preconditions.checkNotNull(builder.firstName);
         this.lastName = Preconditions.checkNotNull(builder.lastName);
         this.dateOfBirth = Preconditions.checkNotNull(builder.dateOfBirth);
@@ -32,6 +33,10 @@ public class User extends ObjectWithId {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getEncodedPassword() {
+        return encodedPassword;
     }
 
     public String getFirstName() {
@@ -60,6 +65,7 @@ public class User extends ObjectWithId {
 
     public static class Builder extends ObjectWithId.Builder<User> {
         private String email;
+        private String encodedPassword;
         private String firstName;
         private String lastName;
         private LocalDate dateOfBirth;
@@ -69,6 +75,11 @@ public class User extends ObjectWithId {
 
         public Builder email(String email) {
             this.email = email;
+            return this;
+        }
+
+        public Builder encodedPassword(String encodedPassword) {
+            this.encodedPassword = encodedPassword;
             return this;
         }
 
@@ -105,6 +116,7 @@ public class User extends ObjectWithId {
         public Builder fromPrototype(User prototype) {
             super.fromPrototype(prototype);
             email = prototype.email;
+            encodedPassword = prototype.encodedPassword;
             firstName = prototype.firstName;
             lastName = prototype.lastName;
             dateOfBirth = prototype.dateOfBirth;

@@ -1,7 +1,9 @@
 package com.github.albertosh.adidas.backend.controllers;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.github.albertosh.adidas.backend.models.user.LoginInfo;
+import com.github.albertosh.adidas.backend.usecases.auth.login.ILoginUseCase;
+import com.github.albertosh.adidas.backend.usecases.auth.login.LoginUseCaseError;
+import com.github.albertosh.adidas.backend.usecases.auth.login.LoginUseCaseInput;
 import com.github.albertosh.adidas.backend.usecases.auth.register.IRegisterUseCase;
 import com.github.albertosh.adidas.backend.usecases.auth.register.RegisterUseCaseError;
 import com.github.albertosh.adidas.backend.usecases.auth.register.RegisterUseCaseInput;
@@ -16,7 +18,6 @@ import java.util.concurrent.CompletionStage;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
-import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import rx.Single;
@@ -29,14 +30,17 @@ import static play.libs.Json.toJson;
 public class UserController extends Controller {
 
     private final IRegisterUseCase registerUseCase;
+    private final ILoginUseCase loginUseCase;
 
     @Inject
-    public UserController(IRegisterUseCase registerUseCase) {
+    public UserController(IRegisterUseCase registerUseCase, ILoginUseCase loginUseCase) {
         this.registerUseCase = registerUseCase;
+        this.loginUseCase = loginUseCase;
     }
 
-    @ApiOperation(httpMethod = POST, path = "/user")
+    @ApiOperation(httpMethod = POST, path = "/user/signup")
     @ApiBodyParam(name = "email", required = true)
+    @ApiBodyParam(name = "password", required = true)
     @ApiBodyParam(name = "firstName", required = true)
     @ApiBodyParam(name = "lastName", required = true)
     @ApiBodyParam(name = "dateOfBirth", dataType = ApiBodyParam.DataType.DATE, required = true)
@@ -47,6 +51,7 @@ public class UserController extends Controller {
     public CompletionStage<Result> register() {
         RegisterUseCaseInput input = new RegisterUseCaseInput.Builder()
                 .email((String) ctx().args.get("email"))
+                .password((String) ctx().args.get("password"))
                 .firstName((String) ctx().args.get("firstName"))
                 .lastName((String) ctx().args.get("lastName"))
                 .dateOfBirth((LocalDate) ctx().args.get("dateOfBirth"))
@@ -58,6 +63,28 @@ public class UserController extends Controller {
                         .map(loginInfo -> ok(toJson(loginInfo)))
                         .onErrorResumeNext(error -> {
                             if (error == RegisterUseCaseError.emailIsAlreadyRegistered) {
+                                return Single.just(badRequest(toJson(error)));
+                            } else
+                                return Single.error(error);
+                        })
+        );
+    }
+
+    @ApiOperation(httpMethod = POST, path = "/user/login")
+    @ApiBodyParam(name = "email", required = true)
+    @ApiBodyParam(name = "password", required = true)
+    @ApiResponse(code = OK, message = "User logged in", response = LoginInfo.class)
+    @ApiResponse(code = BAD_REQUEST, message = "Incorrect user or password")
+    public CompletionStage<Result> login() {
+        LoginUseCaseInput input = new LoginUseCaseInput.Builder()
+                .email((String) ctx().args.get("email"))
+                .password((String) ctx().args.get("password"))
+                .build();
+        return fromSingle(
+                loginUseCase.execute(input)
+                        .map(loginInfo -> ok(toJson(loginInfo)))
+                        .onErrorResumeNext(error -> {
+                            if (error == LoginUseCaseError.incorrectUserOrPassword) {
                                 return Single.just(badRequest(toJson(error)));
                             } else
                                 return Single.error(error);

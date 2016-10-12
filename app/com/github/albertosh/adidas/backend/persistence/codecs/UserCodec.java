@@ -1,6 +1,5 @@
 package com.github.albertosh.adidas.backend.persistence.codecs;
 
-import com.github.albertosh.adidas.backend.models.event.EventTexts;
 import com.github.albertosh.adidas.backend.models.user.User;
 import com.github.albertosh.adidas.backend.persistence.core.ObjectWithId;
 
@@ -45,6 +44,9 @@ public class UserCodec
             case "email":
                 userBuilder.email(reader.readString());
                 break;
+            case "encodedPassword":
+                userBuilder.encodedPassword(reader.readString());
+                break;
             case "firstName":
                 userBuilder.firstName(reader.readString());
                 break;
@@ -61,11 +63,11 @@ public class UserCodec
                 userBuilder.dateOfBirth(localDateCodec.decode(reader, decoderContext));
                 break;
             case "enrollments":
-                reader.readStartDocument();
+                reader.readStartArray();
                 while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
                     userBuilder.withEnrollment(reader.readObjectId().toString());
                 }
-                reader.readEndDocument();
+                reader.readEndArray();
                 break;
             default:
                 // This shouldn't happen...
@@ -76,6 +78,7 @@ public class UserCodec
     @Override
     protected void encodeCurrentObjectTypeFields(BsonWriter writer, User value, EncoderContext context) {
         writer.writeString("email", value.getEmail());
+        writer.writeString("encodedPassword", value.getEncodedPassword());
         writer.writeString("firstName", value.getFirstName());
         writer.writeString("lastName", value.getLastName());
         writer.writeString("country", value.getCountry());

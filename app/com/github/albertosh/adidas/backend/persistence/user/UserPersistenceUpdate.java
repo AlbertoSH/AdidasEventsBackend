@@ -1,7 +1,6 @@
 package com.github.albertosh.adidas.backend.persistence.user;
 
 import com.github.albertosh.adidas.backend.models.user.User;
-import com.github.albertosh.adidas.backend.persistence.core.PersistenceRead;
 import com.github.albertosh.adidas.backend.persistence.core.PersistenceUpdate;
 import com.mongodb.rx.client.MongoClient;
 

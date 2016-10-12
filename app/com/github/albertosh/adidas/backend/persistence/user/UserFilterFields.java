@@ -5,6 +5,7 @@ import com.github.albertosh.adidas.backend.persistence.utils.filter.IFilterField
 
 public enum UserFilterFields implements IFilterField<User> {
 
-    EMAIL
+    EMAIL,
+    ENCODED_PASSWORD
 
 }

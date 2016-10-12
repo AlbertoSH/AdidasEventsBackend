@@ -1,7 +1,6 @@
 package com.github.albertosh.adidas.backend.controllers;
 
 import com.github.albertosh.adidas.backend.models.event.Event;
-import com.github.albertosh.adidas.backend.usecases.auth.register.RegisterUseCaseError;
 import com.github.albertosh.adidas.backend.usecases.enrolls.enrollevent.EnrollEventUseCaseError;
 import com.github.albertosh.adidas.backend.usecases.enrolls.enrollevent.EnrollEventUseCaseInput;
 import com.github.albertosh.adidas.backend.usecases.enrolls.enrollevent.IEnrollEventUseCase;

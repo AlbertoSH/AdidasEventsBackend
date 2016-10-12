@@ -12,6 +12,7 @@ import javax.inject.Named;
 
 import rx.Observable;
 import rx.Single;
+import rx.schedulers.Schedulers;
 
 import static com.mongodb.client.model.Filters.eq;
 
@@ -55,7 +56,8 @@ public abstract class PersistenceRead<T extends ObjectWithId>
                     .limit(pageSize);
         }
 
-        return obs.toObservable();
+        return obs.toObservable()
+                .observeOn(Schedulers.io());
     }
 
 }

@@ -2,16 +2,15 @@ package com.github.albertosh.adidas.backend.usecases.utils.storeimage;
 
 import com.github.albertosh.adidas.backend.persistence.utils.IdGenerator;
 
-import javax.activation.MimetypesFileTypeMap;
-import javax.imageio.ImageIO;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
 
 import rx.Single;
 

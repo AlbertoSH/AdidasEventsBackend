@@ -1,15 +1,16 @@
 package com.github.albertosh.adidas.backend.modules;
 
-import com.github.albertosh.adidas.backend.security.AdminAuthorizationCheck;
-import com.github.albertosh.adidas.backend.security.TokenAuthorizationCheck;
-import com.github.albertosh.swagplash.authorization.AuthorizationCheck;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+
+import com.github.albertosh.adidas.backend.security.TokenAuthorizationCheck;
+import com.github.albertosh.swagplash.authorization.AuthorizationCheck;
+
+import javax.inject.Named;
+
 import play.Configuration;
 import play.Logger;
 import play.mvc.Http;
-
-import javax.inject.Named;
 
 public class SecurityModule extends AbstractModule {
 
@@ -26,7 +27,8 @@ public class SecurityModule extends AbstractModule {
 
 
     @Provides
-    @Named("authorizationHeader") String authorizationHeader(Configuration conf, Logger.ALogger logger) {
+    @Named("authorizationHeader")
+    String authorizationHeader(Configuration conf, Logger.ALogger logger) {
         String header = conf.getString(HEADER_KEY);
         if (header == null) {
             logger.warn("Authorization header at " + HEADER_KEY + " not found! Using " + DEFAULT_HEADER);
@@ -36,7 +38,8 @@ public class SecurityModule extends AbstractModule {
     }
 
     @Provides
-    @Named("authorizationValue") String authorizationValue(Configuration conf, Logger.ALogger logger) {
+    @Named("authorizationValue")
+    String authorizationValue(Configuration conf, Logger.ALogger logger) {
         String header = conf.getString(HEADER_VALUE);
         if (header == null) {
             logger.warn("Authorization value at " + HEADER_VALUE + " not found! Using " + DEFAULT_VALUE);

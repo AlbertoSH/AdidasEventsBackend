@@ -8,6 +8,7 @@ import java.util.Optional;
 public class RegisterUseCaseInput {
 
     private final String email;
+    private final String password;
     private final String firstName;
     private final String lastName;
     private final LocalDate dateOfBirth;
@@ -16,6 +17,7 @@ public class RegisterUseCaseInput {
 
     private RegisterUseCaseInput(Builder builder) {
         this.email = Preconditions.checkNotNull(builder.email);
+        this.password = Preconditions.checkNotNull(builder.password);
         this.firstName = Preconditions.checkNotNull(builder.firstName);
         this.lastName = Preconditions.checkNotNull(builder.lastName);
         this.dateOfBirth = Preconditions.checkNotNull(builder.dateOfBirth);
@@ -25,6 +27,10 @@ public class RegisterUseCaseInput {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public String getFirstName() {
@@ -50,6 +56,7 @@ public class RegisterUseCaseInput {
 
     public static class Builder {
         private String email;
+        private String password;
         private String firstName;
         private String lastName;
         private LocalDate dateOfBirth;
@@ -58,6 +65,11 @@ public class RegisterUseCaseInput {
 
         public Builder email(String email) {
             this.email = email;
+            return this;
+        }
+
+        public Builder password(String password) {
+            this.password = password;
             return this;
         }
 
@@ -88,6 +100,7 @@ public class RegisterUseCaseInput {
 
         public Builder fromPrototype(RegisterUseCaseInput prototype) {
             email = prototype.email;
+            password = prototype.password;
             firstName = prototype.firstName;
             lastName = prototype.lastName;
             dateOfBirth = prototype.dateOfBirth;

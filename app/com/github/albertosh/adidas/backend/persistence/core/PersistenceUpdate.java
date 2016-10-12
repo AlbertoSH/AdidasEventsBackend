@@ -1,15 +1,14 @@
 package com.github.albertosh.adidas.backend.persistence.core;
 
-import com.github.albertosh.adidas.backend.persistence.utils.filter.Filter;
 import com.mongodb.client.model.Filters;
 import com.mongodb.rx.client.MongoClient;
-import com.mongodb.rx.client.MongoCollection;
 
 import org.bson.types.ObjectId;
 
 import javax.inject.Named;
 
 import rx.Single;
+import rx.schedulers.Schedulers;
 
 public abstract class PersistenceUpdate<T extends ObjectWithId>
         extends Persistence<T>
@@ -23,7 +22,8 @@ public abstract class PersistenceUpdate<T extends ObjectWithId>
     public final Single<T> update(T item) {
         return getCollection()
                 .findOneAndReplace(Filters.eq("_id", new ObjectId(item.getId())), item)
-                .toSingle();
+                .toSingle()
+                .observeOn(Schedulers.io());
     }
 
 }
