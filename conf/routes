@@ -12,4 +12,6 @@ GET           /docs/swagger.json                             @com.github.alberto
 GET     /event          @com.github.albertosh.adidas.backend.controllers.EventsController.getAll(page: Integer ?= null, pageSize: Integer ?= null, language: String ?= null)
 GET     /event/:id      @com.github.albertosh.adidas.backend.controllers.EventsController.getSingle(id: String, language: String ?= null)
 POST    /event          @com.github.albertosh.adidas.backend.controllers.EventsController.create()
+
+GET     /image/:id      @com.github.albertosh.adidas.backend.controllers.ImagesController.get(id: String)
     

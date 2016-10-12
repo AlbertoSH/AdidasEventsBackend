@@ -49,7 +49,8 @@ public class CreateEventUseCase
                     .date(input.getDate())
                     .imageId(id);
 
-            if (id != null)
+            if (id == null)
+                // TODO check that the url points to a valid image
                 builder.imageUrl(input.getImageUrl().orElse(null));
 
             builder.defaultLanguage(input.getDefaultLanguage(),

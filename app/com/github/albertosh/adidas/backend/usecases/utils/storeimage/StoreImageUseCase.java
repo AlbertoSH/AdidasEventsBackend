@@ -60,10 +60,7 @@ public class StoreImageUseCase implements IStoreImageUseCase {
     @Override
     public Single<String> execute(StoreImageUseCaseInput input) {
         return Single.defer(() -> {
-            String mimetype = new MimetypesFileTypeMap().getContentType(input.getImage());
-            String type = mimetype.split("/")[0];
-            if (!type.equals("image"))
-                return Single.error(StoreImageError.notAnImage);
+            // TODO check if the file is an image indeed
 
             File folder = new File(basePath, "images");
             if (!folder.exists())

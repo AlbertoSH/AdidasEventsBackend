@@ -24,6 +24,7 @@ import javax.annotation.Nullable;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import play.api.libs.Files;
 import play.mvc.Controller;
 import play.mvc.Result;
 
@@ -99,7 +100,7 @@ public class EventsController extends Controller {
                 .title((String) ctx().args.get("title"))
                 .description(((Optional<String>) ctx().args.get("description")).orElse(null))
                 .date((LocalDate) ctx().args.get("date"))
-                .image(((Optional<File>) ctx().args.get("image")).orElse(null))
+                .image(((Optional<Files.TemporaryFile>) ctx().args.get("image")).map(Files.TemporaryFile::file).orElse(null))
                 .imageUrl(((Optional<String>) ctx().args.get("imageUrl")).orElse(null))
                 .build();
 

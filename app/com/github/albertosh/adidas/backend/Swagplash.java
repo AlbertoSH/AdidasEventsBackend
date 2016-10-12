@@ -28,7 +28,7 @@ import play.mvc.Result;
         ),
         host = "localhost:9000",
         schemes = SwaggerDefinition.Scheme.HTTP,
-        consumes = {"application/json"},
+        consumes = {"application/json", "application/vnd.api+json", "multipart/form-data"},
         produces = {"application/json"}
 )
 
