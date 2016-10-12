@@ -15,5 +15,6 @@ POST    /event          @com.github.albertosh.adidas.backend.controllers.EventsC
 
 GET     /image/:id      @com.github.albertosh.adidas.backend.controllers.ImagesController.get(id: String)
 
-POST     /user          @com.github.albertosh.adidas.backend.controllers.UserController.register()
-    
+POST    /user           @com.github.albertosh.adidas.backend.controllers.UserController.register()
+
+POST    /event/:id/enroll         @com.github.albertosh.adidas.backend.controllers.EnrollsController.enroll(id: String)

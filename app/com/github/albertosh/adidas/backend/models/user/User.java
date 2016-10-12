@@ -5,7 +5,9 @@ import com.google.common.base.Preconditions;
 import com.github.albertosh.adidas.backend.persistence.core.ObjectWithId;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 public class User extends ObjectWithId {
 
@@ -15,6 +17,7 @@ public class User extends ObjectWithId {
     private final LocalDate dateOfBirth;
     private final String country;
     private final String preferredLanguage;
+    private final Set<String> enrollments;
 
     private User(Builder builder) {
         super(builder);
@@ -24,6 +27,7 @@ public class User extends ObjectWithId {
         this.dateOfBirth = Preconditions.checkNotNull(builder.dateOfBirth);
         this.country = Preconditions.checkNotNull(builder.country);
         this.preferredLanguage = Preconditions.checkNotNull(builder.preferredLanguage);
+        this.enrollments = Preconditions.checkNotNull(builder.enrollments);
     }
 
     public String getEmail() {
@@ -50,6 +54,9 @@ public class User extends ObjectWithId {
         return preferredLanguage;
     }
 
+    public Set<String> getEnrollments() {
+        return enrollments;
+    }
 
     public static class Builder extends ObjectWithId.Builder<User> {
         private String email;
@@ -58,6 +65,7 @@ public class User extends ObjectWithId {
         private LocalDate dateOfBirth;
         private String country;
         private String preferredLanguage;
+        private Set<String> enrollments = new HashSet<>();
 
         public Builder email(String email) {
             this.email = email;
@@ -89,6 +97,11 @@ public class User extends ObjectWithId {
             return this;
         }
 
+        public Builder withEnrollment(String enrollment) {
+            this.enrollments.add(enrollment);
+            return this;
+        }
+
         public Builder fromPrototype(User prototype) {
             super.fromPrototype(prototype);
             email = prototype.email;
@@ -97,6 +110,7 @@ public class User extends ObjectWithId {
             dateOfBirth = prototype.dateOfBirth;
             country = prototype.country;
             preferredLanguage = prototype.preferredLanguage;
+            enrollments = prototype.enrollments;
             return this;
         }
 

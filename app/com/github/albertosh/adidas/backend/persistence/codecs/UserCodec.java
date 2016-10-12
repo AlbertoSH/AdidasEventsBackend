@@ -1,13 +1,16 @@
 package com.github.albertosh.adidas.backend.persistence.codecs;
 
+import com.github.albertosh.adidas.backend.models.event.EventTexts;
 import com.github.albertosh.adidas.backend.models.user.User;
 import com.github.albertosh.adidas.backend.persistence.core.ObjectWithId;
 
 import org.bson.BsonReader;
+import org.bson.BsonType;
 import org.bson.BsonWriter;
 import org.bson.codecs.Codec;
 import org.bson.codecs.DecoderContext;
 import org.bson.codecs.EncoderContext;
+import org.bson.types.ObjectId;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -57,6 +60,13 @@ public class UserCodec
             case "dateOfBirth":
                 userBuilder.dateOfBirth(localDateCodec.decode(reader, decoderContext));
                 break;
+            case "enrollments":
+                reader.readStartDocument();
+                while (reader.readBsonType() != BsonType.END_OF_DOCUMENT) {
+                    userBuilder.withEnrollment(reader.readObjectId().toString());
+                }
+                reader.readEndDocument();
+                break;
             default:
                 // This shouldn't happen...
                 throw new RuntimeException("Unknown field decoding event: " + field);
@@ -72,5 +82,14 @@ public class UserCodec
         writer.writeString("language", value.getPreferredLanguage());
         writer.writeName("dateOfBirth");
         localDateCodec.encode(writer, value.getDateOfBirth(), context);
+        if (!value.getEnrollments().isEmpty()) {
+            writer.writeName("enrollments");
+            writer.writeStartArray();
+            value.getEnrollments()
+                    .stream()
+                    .map(ObjectId::new)
+                    .forEach(writer::writeObjectId);
+            writer.writeEndArray();
+        }
     }
 }

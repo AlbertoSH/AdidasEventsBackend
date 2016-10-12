@@ -1,6 +1,7 @@
 package com.github.albertosh.adidas.backend.modules;
 
 import com.github.albertosh.adidas.backend.security.AdminAuthorizationCheck;
+import com.github.albertosh.adidas.backend.security.TokenAuthorizationCheck;
 import com.github.albertosh.swagplash.authorization.AuthorizationCheck;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
@@ -20,7 +21,7 @@ public class SecurityModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(AuthorizationCheck.class).to(AdminAuthorizationCheck.class);
+        bind(AuthorizationCheck.class).to(TokenAuthorizationCheck.class);
     }
 
 

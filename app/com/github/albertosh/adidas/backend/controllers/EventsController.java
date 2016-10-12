@@ -1,6 +1,7 @@
 package com.github.albertosh.adidas.backend.controllers;
 
 import com.github.albertosh.adidas.backend.models.event.Event;
+import com.github.albertosh.adidas.backend.security.AdminAuthorizationCheck;
 import com.github.albertosh.adidas.backend.usecases.event.createEvents.CreateEventUseCaseInput;
 import com.github.albertosh.adidas.backend.usecases.event.createEvents.ICreateEventsUseCase;
 import com.github.albertosh.adidas.backend.usecases.event.getevents.GetEventsUseCaseInput;
@@ -84,7 +85,7 @@ public class EventsController extends Controller {
     }
 
     @ApiOperation(httpMethod = POST, path = "/event")
-    @SecureEndPoint(value = "admin")
+    @SecureEndPoint(value = "admin", alternateChecker = AdminAuthorizationCheck.class)
     @ApiBodyParam(name = "defaultLanguage", required = true)
     @ApiBodyParam(name = "title", required = true)
     @ApiBodyParam(name = "description")
