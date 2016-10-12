@@ -54,7 +54,10 @@ public class MultilingualEventCodec implements Codec<MultilingualEvent> {
                 builder.date(localDateCodec.decode(reader, decoderContext));
                 break;
             case "imageUrl":
-                builder.date(localDateCodec.decode(reader, decoderContext));
+                builder.imageUrl(reader.readString());
+                break;
+            case "imageId":
+                builder.imageId(reader.readObjectId().toString());
                 break;
             case "texts":
                 reader.readStartDocument();
@@ -85,8 +88,13 @@ public class MultilingualEventCodec implements Codec<MultilingualEvent> {
     }
 
     private void encodeCurrentObjectTypeFields(BsonWriter writer, MultilingualEvent value, EncoderContext encoderContext) {
+        writer.writeName("date");
         localDateCodec.encode(writer, value.getDate(), encoderContext);
-        value.getImageUrl().ifPresent(url -> writer.writeString("imageUrl", url));
+        value.getImageUrl()
+                .ifPresent(url -> writer.writeString("imageUrl", url));
+        value.getImageId()
+                .map(ObjectId::new)
+                .ifPresent(id -> writer.writeObjectId("imageId", id));
         writer.writeName("texts");
         writer.writeStartDocument();
         value.getTexts().entrySet().forEach(entry -> {

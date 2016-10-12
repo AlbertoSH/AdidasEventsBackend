@@ -1,10 +1,8 @@
-package com.github.albertosh.adidas.backend.usecases.event.getEvents;
-
-import com.github.albertosh.adidas.backend.usecases.IUseCaseInput;
+package com.github.albertosh.adidas.backend.usecases.event.getevents;
 
 import java.util.Optional;
 
-public class GetEventsUseCaseInput implements IUseCaseInput {
+public class GetEventsUseCaseInput {
 
     private final Integer page;
     private final Integer pageSize;

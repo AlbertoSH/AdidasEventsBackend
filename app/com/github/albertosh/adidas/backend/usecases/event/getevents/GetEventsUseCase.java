@@ -1,4 +1,4 @@
-package com.github.albertosh.adidas.backend.usecases.event.getEvents;
+package com.github.albertosh.adidas.backend.usecases.event.getevents;
 
 import com.github.albertosh.adidas.backend.models.Event;
 import com.github.albertosh.adidas.backend.persistence.event.IMultilingualEventPersistenceRead;
@@ -27,12 +27,9 @@ public class GetEventsUseCase
                 input.getPage().orElse(0),
                 input.getPageSize().orElse(null)
         )
-                .map(multilingualEvent -> {
-                    String language = input.getLanguage()
-                            .orElse(multilingualEvent.getDefaultLanguage());
-                    return multilingualEvent.getLocalizedEvent(language)
-                            .orElseGet(multilingualEvent::getDefaultLanguageEvent);
-                })
+                .map(multilingualEvent -> input.getLanguage()
+                        .map(multilingualEvent::getLocalizedOrDefaultEvent)
+                        .orElseGet(multilingualEvent::getDefaultLanguageEvent))
                 .toList()
                 .toSingle();
     }

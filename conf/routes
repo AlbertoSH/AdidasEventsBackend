@@ -8,5 +8,8 @@ GET           /docs/lib/:fileName                            @com.github.alberto
 GET           /docs/swagger-ui.min.js                        @com.github.albertosh.adidas.backend.Swagplash.serveSwaggerJs
 GET           /docs/swagger.json                             @com.github.albertosh.adidas.backend.Swagplash.getDoc(pretty: Boolean ?= false)
 
-GET     /event     @com.github.albertosh.adidas.backend.controllers.EventsController.getAll(page: Integer ?= null, pageSize: Integer ?= null)
+
+GET     /event          @com.github.albertosh.adidas.backend.controllers.EventsController.getAll(page: Integer ?= null, pageSize: Integer ?= null, language: String ?= null)
+GET     /event/:id      @com.github.albertosh.adidas.backend.controllers.EventsController.getSingle(id: String, language: String ?= null)
+POST    /event          @com.github.albertosh.adidas.backend.controllers.EventsController.create()
     

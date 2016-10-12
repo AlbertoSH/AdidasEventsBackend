@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import rx.Observable;
 import rx.Single;
 
-public interface IPersistenceRead<T> {
+public interface IPersistenceRead<T extends ObjectWithId> {
 
     public final static Integer DEFAULT_PAGE_SIZE = 20;
 

@@ -28,8 +28,8 @@ import play.mvc.Result;
         ),
         host = "localhost:9000",
         schemes = SwaggerDefinition.Scheme.HTTP,
-        consumes = {"multipart/form-data", "application/json", "application/vnd.api+json"},
-        produces = {"application/json", "application/vnd.api+json"}
+        consumes = {"application/json"},
+        produces = {"application/json"}
 )
 
 public class Swagplash extends Controller {

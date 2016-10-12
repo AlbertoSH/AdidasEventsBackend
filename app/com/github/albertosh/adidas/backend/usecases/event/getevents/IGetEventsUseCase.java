@@ -1,4 +1,4 @@
-package com.github.albertosh.adidas.backend.usecases.event.getEvents;
+package com.github.albertosh.adidas.backend.usecases.event.getevents;
 
 import com.google.inject.ImplementedBy;
 

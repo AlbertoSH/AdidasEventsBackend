@@ -25,6 +25,9 @@ public class Event {
     @ApiModelProperty
     @Nullable
     private final String imageUrl;
+    @ApiModelProperty
+    @Nullable
+    private final String imageId;
 
     private Event(Builder builder) {
         this.id = Preconditions.checkNotNull(builder.id);
@@ -32,6 +35,7 @@ public class Event {
         this.date = Preconditions.checkNotNull(builder.date);
         this.description = builder.description;
         this.imageUrl = builder.imageUrl;
+        this.imageId = builder.imageId;
     }
 
     public String getId() {
@@ -54,6 +58,10 @@ public class Event {
         return Optional.ofNullable(imageUrl);
     }
 
+    @Nullable
+    public String getImageId() {
+        return imageId;
+    }
 
     public static class Builder {
         private String id;
@@ -61,6 +69,7 @@ public class Event {
         private LocalDate date;
         private String description;
         private String imageUrl;
+        private String imageId;
 
         public Builder id(String id) {
             this.id = id;
@@ -87,12 +96,18 @@ public class Event {
             return this;
         }
 
+        public Builder imageId(String imageId) {
+            this.imageId = imageId;
+            return this;
+        }
+
         public Builder fromPrototype(Event prototype) {
             id = prototype.id;
             title = prototype.title;
             date = prototype.date;
             description = prototype.description;
             imageUrl = prototype.imageUrl;
+            imageId = prototype.imageId;
             return this;
         }
 

@@ -15,7 +15,7 @@ import rx.Single;
 
 import static com.mongodb.client.model.Filters.eq;
 
-public abstract class PersistenceRead<T>
+public abstract class PersistenceRead<T extends ObjectWithId>
         extends Persistence<T>
         implements IPersistenceRead<T> {
 

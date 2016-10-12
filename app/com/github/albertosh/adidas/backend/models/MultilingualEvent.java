@@ -2,31 +2,30 @@ package com.github.albertosh.adidas.backend.models;
 
 import com.google.common.base.Preconditions;
 
+import com.github.albertosh.adidas.backend.persistence.core.ObjectWithId;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-public class MultilingualEvent {
+public class MultilingualEvent extends ObjectWithId {
 
-    private final String id;
     private final LocalDate date;
     private final String imageUrl;
+    private final String imageId;
     private final Map<String, EventTexts> texts;
     private final String defaultLanguage;
 
     private MultilingualEvent(Builder builder) {
-        this.id = Preconditions.checkNotNull(builder.id);
+        super(builder);
         this.date = Preconditions.checkNotNull(builder.date);
         this.imageUrl = builder.imageUrl;
+        this.imageId = builder.imageId;
         this.texts = Preconditions.checkNotNull(builder.texts);
         this.defaultLanguage = Preconditions.checkNotNull(builder.defaultLanguage);
         if (texts.keySet().isEmpty())
             throw new IllegalStateException("A MultilingualEvent must have at least one EventTexts");
-    }
-
-    public String getId() {
-        return id;
     }
 
     public LocalDate getDate() {
@@ -35,6 +34,10 @@ public class MultilingualEvent {
 
     public Optional<String> getImageUrl() {
         return Optional.ofNullable(imageUrl);
+    }
+
+    public Optional<String> getImageId() {
+        return Optional.ofNullable(imageId);
     }
 
     public Map<String, EventTexts> getTexts() {
@@ -49,9 +52,10 @@ public class MultilingualEvent {
         if (texts.containsKey(language)) {
             EventTexts localizedTexts = texts.get(language);
             return Optional.of(new Event.Builder()
-                    .id(id)
+                    .id(getId())
                     .date(date)
                     .imageUrl(imageUrl)
+                    .imageId(imageId)
                     .title(localizedTexts.getTitle())
                     .description(localizedTexts.getDescription().orElse(null))
                     .build());
@@ -60,21 +64,21 @@ public class MultilingualEvent {
         }
     }
 
+    public Event getLocalizedOrDefaultEvent(String language) {
+        return getLocalizedEvent(language)
+                .orElseGet(this::getDefaultLanguageEvent);
+    }
+
     public String getDefaultLanguage() {
         return defaultLanguage;
     }
 
-    public static class Builder {
-        private String id;
+    public static class Builder extends ObjectWithId.Builder<MultilingualEvent> {
         private LocalDate date;
         private String imageUrl;
+        private String imageId;
         private Map<String, EventTexts> texts = new HashMap<>();
         private String defaultLanguage;
-
-        public Builder id(String id) {
-            this.id = id;
-            return this;
-        }
 
         public Builder date(LocalDate date) {
             this.date = date;
@@ -83,6 +87,11 @@ public class MultilingualEvent {
 
         public Builder imageUrl(String imageUrl) {
             this.imageUrl = imageUrl;
+            return this;
+        }
+
+        public Builder imageId(String imageId) {
+            this.imageId = imageId;
             return this;
         }
 
@@ -112,9 +121,10 @@ public class MultilingualEvent {
         }
 
         public Builder fromPrototype(MultilingualEvent prototype) {
-            id = prototype.id;
+            super.fromPrototype(prototype);
             date = prototype.date;
             imageUrl = prototype.imageUrl;
+            imageId = prototype.imageId;
             texts = prototype.texts;
             defaultLanguage = prototype.defaultLanguage;
             return this;
