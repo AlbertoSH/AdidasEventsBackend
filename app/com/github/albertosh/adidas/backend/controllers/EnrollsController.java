@@ -22,6 +22,7 @@ import static com.github.albertosh.swagplash.annotations.ApiOperation.HttpMethod
 import static play.libs.Json.toJson;
 
 @Singleton
+@Api("Enrolls")
 public class EnrollsController extends LoggedInController {
 
     private final IEnrollEventUseCase enrollEventUseCase;

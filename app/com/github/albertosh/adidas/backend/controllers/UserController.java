@@ -27,6 +27,7 @@ import static com.github.albertosh.swagplash.annotations.ApiOperation.HttpMethod
 import static play.libs.Json.toJson;
 
 @Singleton
+@Api("User")
 public class UserController extends Controller {
 
     private final IRegisterUseCase registerUseCase;
