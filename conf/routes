@@ -19,3 +19,5 @@ POST    /user/signup           @com.github.albertosh.adidas.backend.controllers.
 POST    /user/login            @com.github.albertosh.adidas.backend.controllers.UserController.login()
 
 POST    /event/:id/enroll         @com.github.albertosh.adidas.backend.controllers.EnrollsController.enroll(id: String)
+
+GET     /custom          @com.github.albertosh.adidas.backend.controllers.CustomizeController.getCustomProperties()

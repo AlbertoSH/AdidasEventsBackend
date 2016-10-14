@@ -4,6 +4,7 @@ import com.github.albertosh.adidas.backend.models.event.Event;
 import com.github.albertosh.adidas.backend.usecases.enrolls.enrollevent.EnrollEventUseCaseError;
 import com.github.albertosh.adidas.backend.usecases.enrolls.enrollevent.EnrollEventUseCaseInput;
 import com.github.albertosh.adidas.backend.usecases.enrolls.enrollevent.IEnrollEventUseCase;
+import com.github.albertosh.swagplash.annotations.Api;
 import com.github.albertosh.swagplash.annotations.ApiOperation;
 import com.github.albertosh.swagplash.annotations.ApiPathParam;
 import com.github.albertosh.swagplash.annotations.ApiResponse;

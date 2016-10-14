@@ -7,6 +7,8 @@ import com.github.albertosh.adidas.backend.usecases.auth.login.LoginUseCaseInput
 import com.github.albertosh.adidas.backend.usecases.auth.register.IRegisterUseCase;
 import com.github.albertosh.adidas.backend.usecases.auth.register.RegisterUseCaseError;
 import com.github.albertosh.adidas.backend.usecases.auth.register.RegisterUseCaseInput;
+import com.github.albertosh.adidas.backend.utils.ErrorResult;
+import com.github.albertosh.swagplash.annotations.Api;
 import com.github.albertosh.swagplash.annotations.ApiBodyParam;
 import com.github.albertosh.swagplash.annotations.ApiOperation;
 import com.github.albertosh.swagplash.annotations.ApiResponse;
@@ -48,7 +50,7 @@ public class UserController extends Controller {
     @ApiBodyParam(name = "country", required = true)
     @ApiBodyParam(name = "language")
     @ApiResponse(code = CREATED, message = "User registered", response = LoginInfo.class)
-    @ApiResponse(code = BAD_REQUEST, message = "Email is already registered")
+    @ApiResponse(code = BAD_REQUEST, message = "code -1 = Email is already registered", response = ErrorResult.class)
     public CompletionStage<Result> register() {
         RegisterUseCaseInput input = new RegisterUseCaseInput.Builder()
                 .email((String) ctx().args.get("email"))
@@ -75,7 +77,7 @@ public class UserController extends Controller {
     @ApiBodyParam(name = "email", required = true)
     @ApiBodyParam(name = "password", required = true)
     @ApiResponse(code = OK, message = "User logged in", response = LoginInfo.class)
-    @ApiResponse(code = BAD_REQUEST, message = "Incorrect user or password")
+    @ApiResponse(code = BAD_REQUEST, message = "code -1 = Incorrect user or password", response = ErrorResult.class)
     public CompletionStage<Result> login() {
         LoginUseCaseInput input = new LoginUseCaseInput.Builder()
                 .email((String) ctx().args.get("email"))
